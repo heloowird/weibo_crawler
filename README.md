@@ -22,7 +22,6 @@ collectWeiboData
 
         另外，高级搜索最多返回50页微博，那么时间间隔设置最小为宜。所以该类设置为搜集一定时间段内最多50页微博。
 
-依赖包：lxml
+依赖包：lxml；编译成windows窗口程序依赖包：py2exe
 
-编译成windows窗口程序依赖包：py2exe
-进入控制台，输入python setup.py py2exe，即可生成window窗口程序
+编译方法：进入控制台，输入python setup.py py2exe，即可生成window窗口程序

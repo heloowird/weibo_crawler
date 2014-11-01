@@ -1,4 +1,11 @@
 # coding: utf-8
+
+__version__ = '1.1.0'
+__author__ = 'Zhu Jianqi (heloowird@gmail.com)'
+
+'''
+以关键词收集新浪微博
+'''
 import wx
 import sys
 import urllib

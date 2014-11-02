@@ -36,7 +36,6 @@ collectWeiboData
 	第二步：圆形区域较多，可采用多线程进行。一个buffer对应一个圆形区域，对应一个线程；
 	第三步：用额外的线程将采集到的微博数据入库。
 
-其中，返回的GPS数据数量巨大。如果不设置时间段，实际返回的数据可能会缩水。为了克服这一点，可以用starttime和endtime来控制返回数据量，尽可能多地返回的数据。这里我们将starttime和endtime设置为一个小时。
 
 2、依赖包：yaml(搜集参数)、pymongo(连接数据库MongoDB)、py2exe(编译成windows窗口程序依赖包)
 

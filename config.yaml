@@ -1,0 +1,55 @@
+points: 
+ - name: '#1'
+   accessToken: '2.00CkduZF06XASOa42f91862dF_d2DE'
+   longt: 116.043093
+   lat: 39.591093
+ - name: '#2'
+   accessToken: '2.00PZWBaF06XASO1c5f2600880YaNeZ'
+   longt: 116.185277
+   lat: 39.591093
+ - name: '#3'
+   accessToken: '2.00f35dfF06XASO39d9952ab4zcZxNC'
+   longt: 116.327463
+   lat: 39.591093
+ - name: '#4'
+   accessToken: '2.00fuiafF06XASOcc2bf08ef96mO9wC'
+   longt: 116.469647
+   lat: 39.591093
+ - name: '#5'
+   accessToken: '2.009k5dfF06XASOdd74a07679baTbZD'
+   longt: 116.611833
+   lat: 39.591093
+ - name: '#6'
+   accessToken: '2.00dKjafF06XASO4e013b5c44FcRhUD'
+   longt: 116.754018
+   lat: 39.591093
+ - name: '#7'
+   accessToken: '2.00CkduZF0IVHcF678720f2b30JLmCz'
+   longt: 116.896203
+   lat: 39.591093
+ - name: '#8'
+   accessToken: '2.00PZWBaF0IVHcFda4c8bffadeFitSE'
+   longt: 117.038388
+   lat: 39.591093
+ - name: '#9'
+   accessToken: '2.00f35dfF0IVHcF7571ab4563NFqBkC'
+   longt: 117.180573
+   lat: 39.591093
+ - name: '#10'
+   accessToken: '2.00fuiafF0IVHcF8047b723eeEQYc5E'
+   longt: 116.043093
+   lat: 39.733277
+ - name: '#11'
+   accessToken: '2.009k5dfF0IVHcF30c12249e0PjRvvC'
+   longt: 116.185277
+   lat: 39.733277
+ - name: '#12'
+   accessToken: '2.00dKjafF0IVHcF42447fbb9ep_xX2D'
+   longt: 116.327463
+   lat: 39.733277
+starttime: '2014-08-01 00:00:00'
+endtime: '2014-09-01 00:00:00'
+dbURL: 'mongodb://username:password@ip:port'
+dbThreadNum: 12
+database: geo
+collection: status_aug_2014

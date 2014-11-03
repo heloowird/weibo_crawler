@@ -308,8 +308,8 @@ def main():
         if q[m].isAlive():q[m].join()
     queue.join()
     
-    #print 'ALL OVER!'
-    #logger.info('ALL OVER!')
+    print 'ALL OVER!'
+    logger.info('ALL OVER!')
 
 if __name__ == '__main__':
     main()

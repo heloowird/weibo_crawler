@@ -171,7 +171,7 @@ class CollectData():
                     data = None
                     break
                 i += 1
-                ## 设置两个邻近URL请求之间的随机休眠时间，你懂的。目前没有模拟登陆
+                ## 设置两个邻近URL请求之间的随机休眠时间，防止Be Caught。目前没有模拟登陆
                 sleeptime_one = random.randint(self.interval-30,self.interval-10)
                 sleeptime_two = random.randint(self.interval+10,self.interval+30)
                 if i%2 == 0:

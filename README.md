@@ -6,7 +6,7 @@ collectWeiboData
 
 1. 大体思路：构造URL，爬取网页，然后解析网页中的微博ID。后续利用微博API进行数据入库。本程序只负责收集微博的ID。
 >登陆新浪微博，进入高级搜索，输入关键字”空气污染“，选择”实时“，时间为”2013-07-02-2:2013-07-09-2“，地区为”北京“，之后发送请求会发现地址栏变为如下:
->   http://s.weibo.com/wb/%25E7%25A9%25BA%25E6%25B0%2594%25E6%25B1%25A1%25E6%259F%2593&xsort=time&region=custom:11:1000&timescope=custom:2013-07-02-2:2013-07-09-2&Refer=g
+>   http://s.weibo.com/wb/%25E7%25A9%25BA%25E6%25B0%2594%25E6%25B1%25A1%25E6%259F%2593&xsort=time&region=custom:11:1000&timescope=custom:2013-07-02-2:2013-07-09-2&Refer=g   
 > > + 固定地址部分：http://s.weibo.com/wb/
 > > + 关键字二次UTF-8编码：%25E7%25A9%25BA%25E6%25B0%2594%25E6%25B1%25A1%25E6%259F%2593
 > > + 排序为“实时”：xsort=time

@@ -141,7 +141,7 @@ class CollectData():
                             ## 有结果的页面
                             else:
                                 page = etree.HTML(j)
-                                dls = page.xpath(u"//dl")   #使用xpath解析
+                                dls = page.xpath("//div[@mid]")    #使用xpath解析 contributor: @Michael Luo <michael.nove@gmail.com>
                                 for dl in dls:
                                     mid = str(dl.attrib.get('mid'))
                                     if(mid != 'None' and mid not in mid_filter):

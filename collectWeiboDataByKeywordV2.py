@@ -107,14 +107,15 @@ class CollectData():
         while hasMore and i < 51 and (not isCaught):    #最多返回50页，对每页进行解析，并写入结果文件
             source_url = url + str(i)   #构建某页的URL
             data = ''   #存储该页的网页数据
-            goon = True #网络中断标记
+            netSuccess = True #网络中断标记
 
             ##网络不好的情况，试着尝试请求三次
             for tryNum in range(maxTryNum):
                 try:
                     print source_url
                     opener = urllib2.build_opener()
-                    opener.addheaders.append(('Cookie', ''))
+                    # 登陆微博, 使用自己的cookie
+                    opener.addheaders.append(('Cookie', 'your_cookie'))
                     opener.addheaders.append(('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36'))
                     html = opener.open(source_url, timeout=12)
                     #html = urllib2.urlopen(source_url, timeout=12)
@@ -131,45 +132,38 @@ class CollectData():
                         #self.logger.info('fileNum: ' + str(fileNum))
                         self.logger.info('page: ' + str(i))
                         self.flag = False
-                        goon = False
+                        netSuccess = False
                         break
-            if goon:
-                lines = data.splitlines()
-                isCaught = True
-                for line in lines:
-                    ## 判断是否有微博内容，出现这一行，则说明没有被认为是机器人
-                    if line.startswith('<script>STK && STK.pageletM && STK.pageletM.view({"pid":"pl_weibo_direct"'):
-                        isCaught = False
-                        n = line.find('html":"')
-                        if n > 0:
-                            j = line[n + 7: -12].encode("utf-8").decode('unicode_escape').encode("utf-8").replace("\\", "")
-                            ## 没有更多结果页面
-                            if (j.find('<div class="search_noresult">') > 0):
-                                hasMore = False
-                            ## 有结果的页面
-                            else:
-                                page = etree.HTML(j)
-                                dls = page.xpath("//div[@mid]")    #使用xpath解析 contributor: @Michael Luo <michael.nove@gmail.com>
-                                for dl in dls:
-                                    mid = str(dl.attrib.get('mid'))
-                                    if(mid != 'None' and mid not in mid_filter):
-                                        mid_filter.add(mid)
-                                        content.write(mid)
-                                        content.write('\n')
-                        break
-                lines = None
+            if netSuccess:
+                self.logger.info('current url: ' + source_url + '\n' + data)
+                page = etree.HTML(data)
+                if page.xpath('//div[contains(@class, "card-no-result")]') :
+                    hasMore = False
+                elif page.xpath('//div[contains(@class, "card-wrap")]'):
+                    dls = page.xpath('//div[contains(@class, "card-wrap")]')
+                    for dl in dls:
+                        mid = str(dl.attrib.get('mid'))
+                        if(mid != 'None' and mid not in mid_filter):
+                            mid_filter.add(mid)
+                            content.write(mid)
+                            content.write('\n')
+                else: ## 被认为是机器人或者cookie 失效
+                    isCaught = True
+
                 ## 处理被认为是机器人的情况
                 if isCaught:
                     print 'Be Caught!'
                     self.logger.error('Be Caught Error!')
-                    self.logger.error(data)
-                    #self.logger.info('filePath: ' + savedir)
+                    # 打印网页内容，方便debug
                     self.logger.info('url: ' + source_url)
-                    #self.logger.info('fileNum: ' + str(fileNum))
+                    self.logger.error('error html: \n' +  data)
                     self.logger.info('page:' + str(i))
+                    #self.logger.info('filePath: ' + savedir)
+                    #self.logger.info('fileNum: ' + str(fileNum))
                     data = None
                     self.flag = False
                     break
+
                 ## 没有更多结果，结束该次请求，跳到下一个请求
                 if not hasMore:
                     print 'No More Results!'
@@ -183,13 +177,14 @@ class CollectData():
                 ## 设置两个邻近URL请求之间的随机休眠时间，防止Be Caught。目前没有模拟登陆
                 sleeptime_one = random.randint(self.interval-30,self.interval-10)
                 sleeptime_two = random.randint(self.interval+10,self.interval+30)
-                if i%2 == 0:
+                if i % 2 == 0:
                     sleeptime = sleeptime_two
                 else:
                     sleeptime = sleeptime_one
                 print 'sleeping ' + str(sleeptime) + ' seconds...'
                 time.sleep(sleeptime)
             else:
+                self.logger.error('Network Not Connected!')
                 break
         content.close()
         content = None
@@ -226,14 +221,14 @@ def main():
         savedir = raw_input('Enter the save directory(Like C://data//):')
         interval = raw_input('Enter the time interval( >30 and deafult:50):')
 
-        ##实例化收集类，收集指定关键字和起始时间的微博
+        ## 实例化收集类，收集指定关键字和起始时间的微博
         cd = CollectData(keyword, startTime, region, savedir, interval)
         while cd.flag:
             print cd.timescope
             logger.info(cd.timescope)
             url = cd.getURL()
             cd.download(url)
-            cd.timescope = cd.getTimescope(cd.timescope,1)  #改变搜索的时间，到下一个小时
+            cd.timescope = cd.getTimescope(cd.timescope, 1)  #改变搜索的时间，到下一个小时
         else:
             cd = None
             print '-----------------------------------------------------'

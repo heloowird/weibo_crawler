@@ -121,7 +121,6 @@ class CollectData():
                     html = opener.open(source_url, timeout=12)
                     #html = urllib2.urlopen(source_url, timeout=12)
                     data = html.read()
-                    a = 0/0
                     break
                 except:
                     self.logger.error(traceback.format_exc())

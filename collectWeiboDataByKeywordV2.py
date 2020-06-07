@@ -19,6 +19,7 @@ import datetime
 import random
 from lxml import etree
 import logging
+import traceback
 
 class CollectData():
     """数据收集类
@@ -120,8 +121,10 @@ class CollectData():
                     html = opener.open(source_url, timeout=12)
                     #html = urllib2.urlopen(source_url, timeout=12)
                     data = html.read()
+                    a = 0/0
                     break
                 except:
+                    self.logger.error(traceback.format_exc())
                     if tryNum < (maxTryNum-1):
                         time.sleep(10)
                     else:

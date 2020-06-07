@@ -51,65 +51,65 @@ class CollectData():
         self.setFlag(flag)  #设置
         self.logger = logging.getLogger('main.CollectData') #初始化日志
 
-    ##设置关键字
-    ##关键字需解码
+    ## 设置关键字
+    ## 关键字需解码
     def setKeyword(self, keyword):
         #self.keyword = keyword.decode('GBK').encode("utf-8")
         self.keyword = keyword
         print 'twice encode:',self.getKeyWord()
 
-    ##设置起始范围，间隔为1小时
-    ##格式为：yyyy-mm-dd-HH
+    ## 设置起始范围，间隔为1小时
+    ## 格式为：yyyy-mm-dd-HH
     def setStartTimescope(self, startTime):
         if not (startTime == '-'):
             self.timescope = startTime + ":" + startTime
         else:
             self.timescope = '-'
 
-    ##设置搜索地区
+    ## 设置搜索地区
     def setRegion(self, region):
         self.region = region
 
-    ##设置结果的存储目录
+    ## 设置结果的存储目录
     def setSaveDir(self, save_dir):
         self.save_dir = save_dir
         if not os.path.exists(self.save_dir):
             os.makedirs(self.save_dir)
 
-    ##设置邻近网页请求之间的基础时间间隔
+    ## 设置邻近网页请求之间的基础时间间隔
     def setInterval(self, interval):
         self.interval = int(interval)
 
-    ##设置是否被认为机器人的标志。若为False，需要进入页面，手动输入验证码
+    ## 设置是否被认为机器人的标志。若为False，需要进入页面，手动输入验证码
     def setFlag(self, flag):
         self.flag = flag
 
-    ##构建URL
+    ## 构建URL
     def getURL(self):
         return self.begin_url_per+self.getKeyWord()+"&region=custom:"+self.region+"&xsort=time&timescope=custom:"+self.timescope+"&nodup=1&page="
 
-    ##关键字需要进行两次urlencode
+    ## 关键字需要进行两次urlencode
     def getKeyWord(self):
-        once = urllib.urlencode({"kw":self.keyword})[3:]
-        return urllib.urlencode({"kw":once})[3:]
+        #once = urllib.urlencode({"kw":self.keyword})[3:]
+        #return urllib.urlencode({"kw":once})[3:]
         #return once
-        #return self.keyword
+        return self.keyword
 
-    ##爬取一次请求中的所有网页，最多返回50页
+    ## 爬取一次请求中的所有网页，最多返回50页
     def download(self, url, maxTryNum=4):
         content = open(self.save_dir + os.sep + "weibo_ids.txt", "ab")  #向结果文件中写微博ID
 
-        hasMore = True  #某次请求可能少于50页，设置标记，判断是否还有下一页
-        isCaught = False    #某次请求被认为是机器人，设置标记，判断是否被抓住。抓住后，需要复制log中的文件，进入页面，输入验证码
-        mid_filter = set([])    #过滤重复的微博ID
+        hasMore = True  # 某次请求可能少于50页，设置标记，判断是否还有下一页
+        isCaught = False    # 某次请求被认为是机器人，设置标记，判断是否被抓住。抓住后，需要复制log中的文件，进入页面，输入验证码
+        mid_filter = set([])    # 过滤重复的微博ID
         
-        i = 1   #记录本次请求所返回的页数
+        i = 1   # 记录本次请求所返回的页数
         while hasMore and i < 51 and (not isCaught):    #最多返回50页，对每页进行解析，并写入结果文件
             source_url = url + str(i)   #构建某页的URL
             data = ''   #存储该页的网页数据
             netSuccess = True #网络中断标记
 
-            ##网络不好的情况，试着尝试请求三次
+            ## 网络不好的情况，试着尝试请求三次
             for tryNum in range(maxTryNum):
                 try:
                     print source_url
@@ -189,7 +189,7 @@ class CollectData():
         content.close()
         content = None
 
-    ##改变搜索的时间范围，有利于获取最多的数据   
+    ## 改变搜索的时间范围，有利于获取最多的数据   
     def getTimescope(self, perTimescope, hours):
         if not (perTimescope=='-'):
             times_list = perTimescope.split(':')
@@ -214,7 +214,7 @@ def main():
     while True:
         ## 接受键盘输入
         keyword = raw_input('Enter the keyword(type \'quit\' to exit ):')
-        if keyword == 'quit':
+        if keyword.lower() in ['quit', 'q', 'exit', 'bye'] :
             sys.exit()
         startTime = raw_input('Enter the start time(Format:YYYY-mm-dd-HH):')
         region = raw_input('Enter the region([BJ]11:1000,[SH]31:1000,[GZ]44:1,[CD]51:1):')

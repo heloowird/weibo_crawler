@@ -91,9 +91,9 @@ class CollectData():
 
     ## 关键字需要进行两次urlencode
     def getKeyWord(self):
-        #once = urllib.urlencode({"kw":self.keyword})[3:]
+        once = urllib.urlencode({"kw":self.keyword})[3:]
         #return urllib.urlencode({"kw":once})[3:]
-        #return once
+        return once
         return self.keyword
 
     ## 爬取一次请求中的所有网页，最多返回50页

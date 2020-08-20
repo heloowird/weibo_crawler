@@ -1,10 +1,10 @@
 ## coding: utf-8
 
 __version__ = '1.1.0'
-__author__ = 'Zhu Jianqi (heloowird@gmail.com)'
+__author__ = 'heloowird (heloowird@gmail.com)'
 
 '''
-collect weibo data with GPS
+collect weibo with GPS
 '''
 import weibo
 import time

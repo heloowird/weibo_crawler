@@ -1,0 +1,6 @@
+*.pyc
+*.log
+.DS_Store
+/output
+*.txt
+*.bak
